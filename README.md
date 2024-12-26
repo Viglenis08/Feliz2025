@@ -1,1 +1,1 @@
-![Texto alternativo](Index)
+![Texto alternativo](Index.jpg)
