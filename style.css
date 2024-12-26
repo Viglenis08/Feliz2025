@@ -10,7 +10,7 @@ body {
     height: 100vh;
     overflow: hidden;
     flex-direction: column;
-    background-image: url('fondo.avif'); 
+    background-image: url('fondo.jpg'); 
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat;
@@ -128,16 +128,6 @@ h1 {
     margin: 0;
 }
 
-.firework::before {
-    content: "";
-    display: inline-block;
-    width: 30px; 
-    height: 30px; 
-    background-image: url('fireworks.png'); 
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
 
 @keyframes explode {
     0% {
@@ -193,3 +183,10 @@ h1 {
         background-position: center center; 
     }
 }
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Coloca el canvas debajo del contenido */
+  }
