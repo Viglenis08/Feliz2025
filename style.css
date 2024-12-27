@@ -188,5 +188,44 @@ canvas {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: -1; /* Coloca el canvas debajo del contenido */
+    z-index: -1;
   }
+
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: transparent; 
+    color: blanchedalmond; 
+    padding: 10px; 
+    text-align: center;
+  }
+
+  
+.msg3 {
+    font-family:'Caveat', cursive;
+    font-size: 18px; 
+  }
+  
+  .msg3 span {
+    font-weight: bold;
+    color:#140a6c;
+  }
+  @keyframes titilacion {
+    0% {
+      color: #50f2cc;
+    }
+    50% {
+      color: #66FF33;
+        }
+    100% {
+      color: #e3821b;
+    }
+  }
+  .msg3 span {
+    font-weight: bold;
+    color: #140a6c;
+    animation: titilacion 2s infinite;
+  }
+  

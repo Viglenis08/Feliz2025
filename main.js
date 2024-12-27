@@ -60,8 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
   var pass = [];
   var colors = ['#FF5252', '#FF4081', '#E040FB', '#7C4DFF', '#536DFE', '#448AFF', '#40C4FF', '#18FFFF', '#64FFDA', '#69F0AE', '#B2FF59', '#EEFF41', '#FFFF00', '#FFD740', '#FFAB40', '#FF6E40'];
   var backgroundImage = new Image();
-  backgroundImage.src = 'fondo.jpg'; // Ruta a tu imagen de fondo
-  
+  backgroundImage.src = 'fondo.jpg'; 
   window.onresize = function() { reset(); }
   reset();
   
@@ -73,42 +72,40 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   function newShell() {
+
     var left = (Math.random() > 0.5);
     var shell = {};
-    shell.x = (1 * left);
+    shell.x = (1*left);
     shell.y = 1;
     shell.xoff = (0.01 + Math.random() * 0.007) * (left ? 1 : -1);
     shell.yoff = 0.01 + Math.random() * 0.007;
-    
-    // Aumentamos el tamaño de la cáscara para hacer el estallido más grande
-    shell.size = Math.random() * 10 + 10;  // Ahora el tamaño será entre 10 y 25
-  
+    shell.size = Math.random() * 6 + 3;
     shell.color = colors[Math.floor(Math.random() * colors.length)];
   
     shells.push(shell);
   }
-  
   function newPass(shell) {
+
     var pasCount = Math.ceil(Math.pow(shell.size, 2) * Math.PI);
   
     for (i = 0; i < pasCount; i++) {
+  
       var pas = {};
       pas.x = shell.x * cwidth;
       pas.y = shell.y * cheight;
   
       var a = Math.random() * 4;
-      var s = Math.random() * 15;  // Hacemos que la velocidad sea mayor
+      var s = Math.random() * 10;
   
-      pas.xoff = s * Math.sin((5 - a) * (Math.PI / 2));
-      pas.yoff = s * Math.sin(a * (Math.PI / 2));
+      pas.xoff = s *  Math.sin((5 - a) * (Math.PI / 2));
+      pas.yoff = s *  Math.sin(a * (Math.PI / 2));
   
       pas.color = shell.color;
-      pas.size = Math.sqrt(shell.size);  // El tamaño de la partícula depende del tamaño de la cáscara
+      pas.size = Math.sqrt(shell.size);
   
       if (pass.length < 1000) { pass.push(pas); }
     }
   }
-  
   var lastRun = 0;
   Run();
   
@@ -116,8 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
     var dt = 1;
     if (lastRun != 0) { dt = Math.min(50, (performance.now() - lastRun)); }
     lastRun = performance.now();
-  
-    // Dibujar la imagen de fondo (escalada para cubrir toda la pantalla)
     ctx.drawImage(backgroundImage, 0, 0, cwidth, cheight);
   
     if ((shells.length < 10) && (Math.random() > 0.96)) { newShell(); }
@@ -142,34 +137,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   
     for (let ix in pass) {
+
       var pas = pass[ix];
-  
-      // Ajustamos la opacidad basándonos en el tamaño
-      var opacity = pas.size / 10;  // Hace que la opacidad disminuya según el tamaño
-      if (opacity < 0) opacity = 0;  // Aseguramos que la opacidad no sea negativa
-  
-      ctx.globalAlpha = opacity;  // Aplicamos la opacidad
   
       ctx.beginPath();
       ctx.arc(pas.x, pas.y, pas.size, 0, 2 * Math.PI);
-      ctx.fillStyle = pas.color;  // Usamos el color original
+      ctx.fillStyle = pas.color;
       ctx.fill();
   
       pas.x -= pas.xoff;
       pas.y -= pas.yoff;
       pas.xoff -= (pas.xoff * dt * 0.001);
       pas.yoff -= ((pas.yoff + 5) * dt * 0.0005);
+      pas.size -= (dt * 0.002 * Math.random())
   
-      // Reducimos el tamaño
-      pas.size -= (dt * 0.01 * Math.random());  // Hacemos que el fuego se desvanezca más rápido
-  
-      if (pas.size <= 0) {
-          pass.splice(ix, 1);  // Eliminar el fuego cuando se desvanecen completamente
+      if ((pas.y > cheight)  || (pas.y < -50) || (pas.size <= 0)) {
+          pass.splice(ix, 1);
       }
     }
-  
-    ctx.globalAlpha = 1;  // Restaurar la opacidad global después de dibujar
-  
     requestAnimationFrame(Run);
   }
+  
   
